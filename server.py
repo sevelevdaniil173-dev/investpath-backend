@@ -22,7 +22,7 @@ def get_market_context(risk):
     aggressive_contexts = [
         "Технологический и ростовой сегменты рынка остаются более волатильными, но дают повышенный потенциал движения вверх.",
         "На рынке сохраняются условия для активов роста, хотя краткосрочные колебания могут быть довольно резкими.",
-        "Агрессивные инструменты остаются чувствительными к новостному фону, но на длинном горизонте способны дать высокий потенциал роста."
+        "Агрессивные инструменты остаются чувствительными к новостному фону и коррекциям рынка, но на длинном горизонте способны дать более высокий потенциал роста."
     ]
 
     if risk == "Консервативный":
@@ -49,133 +49,103 @@ def get_return_range(risk, term):
     return "14–22% годовых"
 
 
-def get_assets(strategy, portfolio):
-    conservative_sets = {
-        "portfolio_1": [
-            ("ОФЗ", "45%"),
-            ("Корпоративные облигации", "25%"),
-            ("Фонд ликвидности", "20%"),
-            ("Золото", "10%"),
-        ],
-        "portfolio_2": [
-            ("ОФЗ", "35%"),
-            ("Корпоративные облигации", "25%"),
-            ("ETF на индекс S&P 500", "20%"),
-            ("Золото", "10%"),
-            ("Кэш", "10%"),
-        ],
-        "portfolio_3": [
-            ("ОФЗ", "30%"),
-            ("Корпоративные облигации", "25%"),
-            ("ETF на индекс", "25%"),
-            ("Золото", "10%"),
-            ("Кэш", "10%"),
-        ],
-    }
+def get_variants(risk, amount, goal):
+    if risk == "Консервативный":
+        return [
+            {
+                "title": "Вариант 1 — Защита капитала",
+                "subtitle": "Более спокойный сценарий",
+                "tools": [
+                    "Облигации — 45%",
+                    "Фонды денежного рынка — 20%",
+                    "ETF на индекс — 15%",
+                    "Золото — 10%",
+                    "Кэш — 10%"
+                ]
+            },
+            {
+                "title": "Вариант 2 — Умеренный доход",
+                "subtitle": "Чуть больше потенциала роста",
+                "tools": [
+                    "Облигации — 35%",
+                    "Фонды — 25%",
+                    "Дивидендные акции — 20%",
+                    "Золото — 10%",
+                    "Кэш — 10%"
+                ]
+            }
+        ]
 
-    balanced_sets = {
-        "portfolio_1": [
-            ("ETF S&P 500", "35%"),
-            ("Облигации", "40%"),
-            ("Фонд ликвидности", "25%"),
-        ],
-        "portfolio_2": [
-            ("ETF S&P 500", "30%"),
-            ("ETF на развивающиеся рынки", "15%"),
-            ("Облигации", "25%"),
-            ("Apple / Microsoft", "15%"),
-            ("Золото", "10%"),
-            ("Кэш", "5%"),
-        ],
-        "portfolio_3": [
-            ("Акции крупных компаний", "30%"),
-            ("ETF", "25%"),
-            ("Облигации", "25%"),
-            ("Золото", "10%"),
-            ("Кэш", "10%"),
-        ],
-    }
+    if risk == "Сбалансированный":
+        return [
+            {
+                "title": "Вариант 1 — Баланс роста",
+                "subtitle": "Умеренный риск и диверсификация",
+                "tools": [
+                    "Акции крупных компаний — 25%",
+                    "ETF/фонды — 30%",
+                    "Облигации — 25%",
+                    "Золото — 10%",
+                    "Кэш — 10%"
+                ]
+            },
+            {
+                "title": "Вариант 2 — Более активный",
+                "subtitle": "С акцентом на рост капитала",
+                "tools": [
+                    "Акции роста — 35%",
+                    "ETF/фонды — 30%",
+                    "Облигации — 20%",
+                    "Золото — 5%",
+                    "Кэш — 10%"
+                ]
+            }
+        ]
 
-    aggressive_sets = {
-        "portfolio_1": [
-            ("Tesla / Nvidia", "25%"),
-            ("ETF Nasdaq", "30%"),
-            ("S&P 500", "20%"),
-            ("Кэш", "25%"),
-        ],
-        "portfolio_2": [
-            ("Tesla / Nvidia", "30%"),
-            ("ETF Nasdaq", "25%"),
-            ("Крипто (BTC/ETH)", "15%"),
-            ("S&P 500", "15%"),
-            ("Кэш", "15%"),
-        ],
-        "portfolio_3": [
-            ("Акции роста", "35%"),
-            ("ETF Nasdaq", "25%"),
-            ("Крипто (BTC/ETH)", "20%"),
-            ("S&P 500", "10%"),
-            ("Кэш", "10%"),
-        ],
-    }
-
-    if "conservative" in strategy:
-        return conservative_sets.get(portfolio, conservative_sets["portfolio_2"])
-    elif "balanced" in strategy:
-        return balanced_sets.get(portfolio, balanced_sets["portfolio_2"])
-    else:
-        return aggressive_sets.get(portfolio, aggressive_sets["portfolio_2"])
-
-
-def get_strategy_title(strategy):
-    mapping = {
-        "conservative": "Консервативная стратегия",
-        "moderate_conservative": "Умеренно-консервативная стратегия",
-        "income_conservative": "Доходная консервативная стратегия",
-        "balanced": "Сбалансированная стратегия",
-        "growth_balanced": "Стратегия умеренного роста",
-        "diversified_balanced": "Диверсифицированная стратегия",
-        "aggressive": "Агрессивная стратегия",
-        "active_growth": "Стратегия активного роста",
-        "high_return": "Высокодоходная стратегия",
-    }
-    return mapping.get(strategy, strategy)
-
-
-def get_portfolio_title(portfolio):
-    mapping = {
-        "portfolio_1": "Портфель 1",
-        "portfolio_2": "Портфель 2",
-        "portfolio_3": "Портфель 3",
-    }
-    return mapping.get(portfolio, portfolio)
+    return [
+        {
+            "title": "Вариант 1 — Рост капитала",
+            "subtitle": "Для более уверенного риска",
+            "tools": [
+                "Акции роста — 40%",
+                "ETF Nasdaq / индексные фонды — 30%",
+                "Облигации — 10%",
+                "Золото — 5%",
+                "Кэш — 15%"
+            ]
+        },
+        {
+            "title": "Вариант 2 — Агрессивный",
+            "subtitle": "Максимум потенциала в рамках сценария",
+            "tools": [
+                "Акции роста — 50%",
+                "ETF/фонды — 25%",
+                "Высокорисковые идеи — 10%",
+                "Золото — 5%",
+                "Кэш — 10%"
+            ]
+        }
+    ]
 
 
 def build_analysis(data):
-    name = data.get("name", "инвестор")
+    name = data.get("name", "инвестора")
     term = data.get("term", "не указан")
     amount = data.get("amount", "не указана")
     goal = data.get("goal", "не указана")
     risk = data.get("risk", "не указан")
-    strategy = data.get("strategy", "")
-    portfolio = data.get("portfolio", "")
 
-    strategy_title = get_strategy_title(strategy)
-    portfolio_title = get_portfolio_title(portfolio)
     market_context = get_market_context(risk)
     expected_return = get_return_range(risk, term)
-    assets = get_assets(strategy, portfolio)
-
-    assets_text = "\n".join([f"• {name_} — {share}" for name_, share in assets])
 
     if risk == "Консервативный":
         fit_text = (
-            "Такой вариант подходит пользователю, которому важно в первую очередь сохранить капитал "
+            "Такой подход подходит тем, кому важно в первую очередь сохранить капитал "
             "и снизить влияние резких рыночных колебаний."
         )
         risk_text = (
             "Главное ограничение такого подхода — более умеренный потенциал роста по сравнению "
-            "с более агрессивными стратегиями."
+            "с более активными сценариями."
         )
     elif risk == "Сбалансированный":
         fit_text = (
@@ -183,7 +153,7 @@ def build_analysis(data):
             "и контролем риска."
         )
         risk_text = (
-            "В отдельные периоды возможны просадки, но обычно они мягче, чем у агрессивного подхода."
+            "В отдельные периоды возможны просадки, но обычно они мягче, чем в агрессивных сценариях."
         )
     else:
         fit_text = (
@@ -191,7 +161,7 @@ def build_analysis(data):
             "ради более высокого потенциального роста капитала."
         )
         risk_text = (
-            "Важно учитывать, что такие решения чувствительнее к новостному фону и рыночным коррекциям."
+            "Важно учитывать, что такие решения чувствительнее к новостному фону и коррекциям рынка."
         )
 
     return f"""Персональный инвестиционный разбор для {name}
@@ -201,28 +171,18 @@ def build_analysis(data):
 • Сумма: {amount}
 • Цель: {goal}
 • Стиль: {risk}
-• Стратегия: {strategy_title}
-• Портфель: {portfolio_title}
-
-Структура портфеля:
-{assets_text}
 
 Анализ рынка:
 {market_context}
 
 Потенциал стратегии:
-На выбранном горизонте ({term}) ожидаемый диапазон доходности может составлять {expected_return}, при условии соблюдения стратегии, диверсификации и спокойного отношения к краткосрочным движениям рынка.
+На выбранном горизонте ({term}) ожидаемый диапазон доходности может составлять {expected_return}, при условии диверсификации и последовательного подхода.
 
 Почему это решение подходит:
-{fit_text} С учётом цели «{goal}» и бюджета «{amount}» выбранный подход выглядит как логичный базовый сценарий.
+{fit_text} С учётом цели «{goal}» и бюджета «{amount}» такой сценарий выглядит разумной базовой точкой входа.
 
 На что обратить внимание:
-{risk_text} Кроме того, перед действиями стоит проверить комиссии брокера, минимальные суммы входа и актуальный состав инструментов.
-
-Рекомендации:
-• инвестировать поэтапно, а не одной точкой
-• пересматривать структуру раз в 3–6 месяцев
-• не принимать решения только на эмоциях и новостях
+{risk_text} Дополнительно стоит учитывать комиссии брокера, минимальные суммы входа и фактический состав инструментов.
 
 Важно:
 Этот материал носит информационно-образовательный характер и не является индивидуальной инвестиционной рекомендацией."""
@@ -236,72 +196,23 @@ def home():
 @app.route("/analyze", methods=["POST"])
 def analyze():
     data = request.get_json() or {}
+
     analysis = build_analysis(data)
-    return jsonify({"analysis": analysis})
+    variants = get_variants(
+        data.get("risk", "Сбалансированный"),
+        data.get("amount", ""),
+        data.get("goal", "")
+    )
+
+    return jsonify({
+        "analysis": analysis,
+        "variants": variants,
+        "pro_offer": {
+            "title": "Нужно больше вариантов?",
+            "text": "В PRO-версии можно открыть расширенный подбор с дополнительными портфелями и более точной настройкой структуры."
+        }
+    })
 
 
 if __name__ == "__main__":
     app.run(host="0.0.0.0", port=5001)
-.ai-variants-wrap {
-  margin-top: 18px;
-}
-
-.ai-variants-title {
-  font-size: 18px;
-  font-weight: 700;
-  margin-bottom: 12px;
-  color: #ffffff;
-}
-
-.ai-variant-card {
-  background: #0b1220;
-  border: 1px solid #22304a;
-  border-radius: 14px;
-  padding: 14px;
-  margin-bottom: 12px;
-}
-
-.ai-variant-card h4 {
-  margin: 0 0 6px;
-  font-size: 17px;
-  color: #ffffff;
-}
-
-.ai-variant-subtitle {
-  color: #94a3b8;
-  font-size: 14px;
-  margin-bottom: 10px;
-}
-
-.ai-variant-list {
-  margin: 0;
-  padding-left: 18px;
-}
-
-.ai-variant-list li {
-  margin-bottom: 6px;
-  color: #dbe4f0;
-  line-height: 1.4;
-}
-
-.pro-offer {
-  margin-top: 16px;
-  padding: 16px;
-  background: linear-gradient(180deg, #111827 0%, #0f172a 100%);
-  border: 1px solid #334155;
-  border-radius: 14px;
-}
-
-.pro-offer-title {
-  font-size: 17px;
-  font-weight: 700;
-  margin-bottom: 8px;
-  color: #ffffff;
-}
-
-.pro-offer-text {
-  color: #cbd5e1;
-  font-size: 14px;
-  line-height: 1.5;
-  margin-bottom: 12px;
-}
