@@ -242,3 +242,66 @@ def analyze():
 
 if __name__ == "__main__":
     app.run(host="0.0.0.0", port=5001)
+.ai-variants-wrap {
+  margin-top: 18px;
+}
+
+.ai-variants-title {
+  font-size: 18px;
+  font-weight: 700;
+  margin-bottom: 12px;
+  color: #ffffff;
+}
+
+.ai-variant-card {
+  background: #0b1220;
+  border: 1px solid #22304a;
+  border-radius: 14px;
+  padding: 14px;
+  margin-bottom: 12px;
+}
+
+.ai-variant-card h4 {
+  margin: 0 0 6px;
+  font-size: 17px;
+  color: #ffffff;
+}
+
+.ai-variant-subtitle {
+  color: #94a3b8;
+  font-size: 14px;
+  margin-bottom: 10px;
+}
+
+.ai-variant-list {
+  margin: 0;
+  padding-left: 18px;
+}
+
+.ai-variant-list li {
+  margin-bottom: 6px;
+  color: #dbe4f0;
+  line-height: 1.4;
+}
+
+.pro-offer {
+  margin-top: 16px;
+  padding: 16px;
+  background: linear-gradient(180deg, #111827 0%, #0f172a 100%);
+  border: 1px solid #334155;
+  border-radius: 14px;
+}
+
+.pro-offer-title {
+  font-size: 17px;
+  font-weight: 700;
+  margin-bottom: 8px;
+  color: #ffffff;
+}
+
+.pro-offer-text {
+  color: #cbd5e1;
+  font-size: 14px;
+  line-height: 1.5;
+  margin-bottom: 12px;
+}
